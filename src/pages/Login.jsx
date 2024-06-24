@@ -10,8 +10,9 @@ export default function(){
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        const fakeToken = "rTpRHPeYPbgMDZ2kgz7X8ES636oG7fYMD2eL4GHE64lRJtvJ71"
 
-        handleLogin();
+        handleLogin(fakeToken);
         return navigate("/posts");
     }
 
