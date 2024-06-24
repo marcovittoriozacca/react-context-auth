@@ -7,13 +7,14 @@ import MainLayout from "./layouts/MainLayout"
 import PostsByTag from "./pages/PostsByTag"
 import Create from "./components/main/Create"
 import { AuthProvider } from "./contexts/AuthContext"
+import CheckAuth from "./middlewares/CheckAuth"
 
 function App() {
 
   return (
     <>
-    <BrowserRouter>
-      <AuthProvider>
+    <AuthProvider>
+      <BrowserRouter>
         <Routes>
           {/* general layout applied to all of our routes */}
           <Route path="/" element={<MainLayout/>}>
@@ -21,8 +22,12 @@ function App() {
             {/* main route for the "/" url with component HomePage */}
             <Route index element={<HomePage/>}/>
 
-            <Route path={"create-post"} element={<Create/>} />
-            
+              <Route path={"create-post"} element={
+                <CheckAuth>
+                  <Create/>
+                </CheckAuth>
+              } />
+                        
             {/* sub routes for posts */}
             <Route path="posts">
               {/* main page for the posts route */}
@@ -38,8 +43,8 @@ function App() {
             <Route path="*" element={<NotFound/>}/>
           </Route>
         </Routes>    
-      </AuthProvider>
-    </BrowserRouter>
+      </BrowserRouter>
+    </AuthProvider>
     </>
   )
 }
