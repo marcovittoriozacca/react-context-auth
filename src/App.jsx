@@ -8,6 +8,7 @@ import PostsByTag from "./pages/PostsByTag"
 import Create from "./components/main/Create"
 import { AuthProvider } from "./contexts/AuthContext"
 import CheckAuth from "./middlewares/CheckAuth"
+import Login from "./pages/Login"
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
 
             {/* main route for the "/" url with component HomePage */}
             <Route index element={<HomePage/>}/>
+              <Route path="login" element={<Login/>}/>
 
               <Route path={"create-post"} element={
                 <CheckAuth>
