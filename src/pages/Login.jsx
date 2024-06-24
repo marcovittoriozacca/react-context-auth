@@ -2,6 +2,7 @@ import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { useState } from "react";
 import { IoEye as ShowPassword, IoEyeOff as HidePassword  } from "react-icons/io5";
+import { MultiError, SingleError } from "../components/main/ErrorHandlers";
 import axios from "axios";
 
 export default function(){
@@ -14,7 +15,8 @@ export default function(){
     };
 
     const [showPassword, setShowPassword] = useState(false);
-    const [formData, setFormData] = useState(initialData)
+    const [formData, setFormData] = useState(initialData);
+    const [errors, setErrors] = useState([]);
 
     const handleSubmit = async (e) => {
         const loginUrl = import.meta.env.VITE_SERVER_LOGIN;
@@ -24,12 +26,12 @@ export default function(){
             const response = await axios.post(`${loginUrl}`, formData);
             const token = response.data.token;
             const username = response.data.user.name;
-            console.log(response)
+
             handleLogin({"token": token, "name": username});
             return navigate("/posts");
-            
+
         }catch(err){
-            console.error(err);
+            setErrors(err.response.data.errors || err.response.data.error)
         }
 
     }
@@ -37,6 +39,7 @@ export default function(){
     const handleFormData = (e) => {
         setFormData(curr => ({...curr, [e.target.name]: e.target.value}))
     }
+
     
     return(<>
         {isLoggedIn === true? 
@@ -52,6 +55,7 @@ export default function(){
                                     <input type="text" name="email" id="email" className="pr-10" value={formData.email} onChange={handleFormData}/>
                                 </div>
                             </label>
+                            <MultiError field={"email"} array={errors}/>
                         </div>
 
                         <div className="mb-3">
@@ -63,15 +67,17 @@ export default function(){
                                         {showPassword === false? <ShowPassword/> : <HidePassword/>}
                                     </div>
                                 </div>
+                                <MultiError field={"password"} array={errors}/>
                             </label>
                         </div>
+                        <SingleError error={errors}/>
                         <button type="submit" className="bg-sky-400 w-full py-3 rounded-md">Login</button>
                     </form>
                 </div>
-
                 <div className=" text-end">
                     <Link to={"/register"} className="px-2 py-3">Dont have an account? Register here!</Link>
                 </div>
+
             </section>
         }
         

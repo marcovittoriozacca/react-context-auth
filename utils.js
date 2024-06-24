@@ -8,5 +8,5 @@ const getPostImage = (img) => {
 }
 export {
     handleFallbackImage,
-    getPostImage
+    getPostImage,
 }
