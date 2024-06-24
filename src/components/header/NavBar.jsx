@@ -18,7 +18,7 @@ const links = [
 ]
 export default function(){
     const navigate = useNavigate();
-    const { isLoggedIn, handleLogout } = useAuth();
+    const { isLoggedIn, handleLogout, user } = useAuth();
 
     const logout = () => {
         handleLogout();
@@ -49,7 +49,7 @@ export default function(){
                     <div>
                         <details>
                             <summary>                        
-                                User
+                                {user.name}
                             </summary>
                             <button type="button" onClick={logout}>Logout</button>
                         </details>

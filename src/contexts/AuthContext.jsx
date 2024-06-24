@@ -21,22 +21,23 @@ const AuthProvider = ({children}) => {
         }
     }
 
-    useEffect(()=>{
-        handleLoggedInStatus();
-    },[isLoggedIn, user])
-
+    
     const handleLogout = () => {
         setIsLoggedIn(false)
         setUser(false);
     };
-
+    
     const values = {
         isLoggedIn,
         user,
         handleLogin,
         handleLogout
     }
-
+    
+    useEffect(()=>{
+        handleLoggedInStatus();
+    },[isLoggedIn, user])
+    
     return(
         <AuthContext.Provider value={values}>
             {children}
