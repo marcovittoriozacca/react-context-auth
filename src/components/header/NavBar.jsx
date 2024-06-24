@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom"
+import { NavLink, useNavigate } from "react-router-dom"
 import "./NavBar.css";
 import { useAuth } from "../../contexts/AuthContext";
 
@@ -17,8 +17,13 @@ const links = [
     }
 ]
 export default function(){
+    const navigate = useNavigate();
+    const { isLoggedIn, handleLogout } = useAuth();
 
-    const { isLoggedIn } = useAuth();
+    const logout = () => {
+        handleLogout();
+        return navigate("/")
+    }
 
     return(<>
         <header className=" bg-neutral-200">
@@ -42,7 +47,12 @@ export default function(){
                 }
                 {isLoggedIn && 
                     <div>
-                        <h3>User info</h3>
+                        <details>
+                            <summary>                        
+                                User
+                            </summary>
+                            <button type="button" onClick={logout}>Logout</button>
+                        </details>
                     </div>
                 }
             </nav>
